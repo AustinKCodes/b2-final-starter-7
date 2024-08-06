@@ -8,7 +8,7 @@ RSpec.describe Coupon, type: :model do
     it { should validate_presence_of :discount_amount }
     it { should validate_presence_of :merchant_id }
     it { should validate_inclusion_of(:active).in_array([true, false]) }
-    it "abduls fix" do
+    it "should validate the uniqueness of code" do
       @merchant1 = Merchant.create!(name: "Hair Care")
       @coupon1 = Coupon.create!(name: "Coupon 1", code: "BOGO50", discount_type: 0, discount_amount: 50, merchant: @merchant1, active: true)
       expect(@coupon1).to validate_uniqueness_of :code
