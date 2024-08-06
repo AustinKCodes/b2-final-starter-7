@@ -1,0 +1,32 @@
+<h1>New Coupon</h1>
+
+<%= form_with model: [@merchant, @coupon], local: true do |form| %>
+	<div class="field">
+		<%= form.label :name %>
+		<%= form.text_field :name %>
+	</div>
+
+	<div class="field">
+		<%= form.label :code %>
+		<%= form.text_field :code %>
+	</div>
+
+	<div class="field">
+		<%= form.label :discount_type, "Discount Type:" %>
+    <%= form.select :discount_type, Coupon.discount_types.keys.map { |type| [type, type] } %>
+	</div>
+
+	<div class="field">
+		<%= form.label :discount_amount, "Discount Amount:" %>
+		<%= form.number_field :discount_amount %>
+	</div>
+
+	<div class="field">
+		<%= form.label :active %>
+		<%= form.check_box :active, checked: true %>
+	</div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

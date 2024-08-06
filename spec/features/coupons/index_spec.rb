@@ -75,4 +75,12 @@ RSpec.describe "Merchant Coupons Index" do
     expect(page).to have_link(@coupon3.name)
     expect(page).to_not have_link(@coupon4.name)
   end
+
+  it " should have a create new coupon link" do
+    click_link "View All Coupons"
+    
+    click_link "Create New Coupon"
+
+    expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+  end
 end
