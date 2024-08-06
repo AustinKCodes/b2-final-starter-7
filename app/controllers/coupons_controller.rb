@@ -7,6 +7,7 @@ class CouponsController < ApplicationController
 
   def show
     @coupon = Coupon.find(params[:id])
+    @coupon_use_count = @coupon.use_count
   end
 
   def new

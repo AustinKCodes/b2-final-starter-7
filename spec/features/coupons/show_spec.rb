@@ -11,13 +11,19 @@ RSpec.describe "Coupon Show Page" do
     @customer_5 = Customer.create!(first_name: "Sylvester", last_name: "Nader")
     @customer_6 = Customer.create!(first_name: "Herber", last_name: "Kuhn")
 
-    @invoice_5 = Invoice.create!(customer_id: @customer_4.id, status: 2)
-    @invoice_6 = Invoice.create!(customer_id: @customer_5.id, status: 2)
-    @invoice_7 = Invoice.create!(customer_id: @customer_6.id, status: 1)
+    @invoice_5 = Invoice.create!(customer_id: @customer_4.id, status: 2, coupon: @coupon1)
+    @invoice_6 = Invoice.create!(customer_id: @customer_5.id, status: 2, coupon: @coupon1)
+    @invoice_7 = Invoice.create!(customer_id: @customer_6.id, status: 1, coupon: @coupon1)
+    @invoice_8 = Invoice.create!(customer_id: @customer_4.id, status: 0, coupon: @coupon1)
+    @invoice_9 = Invoice.create!(customer_id: @customer_5.id, status: 0, coupon: @coupon1)
+    @invoice_1 = Invoice.create!(customer_id: @customer_6.id, status: 2, coupon: @coupon1)
 
-    @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_4.id)
+    @transaction3 = Transaction.create!(credit_card_number: 234092, result: 1, invoice_id: @invoice_7.id)
     @transaction4 = Transaction.create!(credit_card_number: 230429, result: 1, invoice_id: @invoice_5.id)
     @transaction5 = Transaction.create!(credit_card_number: 102938, result: 0, invoice_id: @invoice_6.id)
+    @transaction9 = Transaction.create!(credit_card_number: 102938, result: 0, invoice_id: @invoice_8.id)
+    @transaction8 = Transaction.create!(credit_card_number: 102938, result: 0, invoice_id: @invoice_9.id)
+    @transaction7 = Transaction.create!(credit_card_number: 102938, result: 1, invoice_id: @invoice_1.id)
 
     visit merchant_coupons_path(@merchant1)
   end
@@ -37,6 +43,7 @@ RSpec.describe "Coupon Show Page" do
 
     expect(page).to have_content("Use Count: #{@coupon1.use_count}")
     expect(page).to_not have_content("Use Count: #{@coupon2.use_count}")
+    save_and_open_page
   end
 
 end

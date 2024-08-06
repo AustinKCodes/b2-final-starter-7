@@ -14,4 +14,8 @@ class Coupon < ApplicationRecord
 
   enum discount_type: { percent: 0, dollar: 1 }
 
+  def use_count
+    invoices.joins(:transactions).where("transactions.result = 1").count
+  end
+
 end
