@@ -146,5 +146,16 @@ describe Merchant do
       expect(@merchant1.disabled_items).to eq([@item_2, @item_3, @item_4, @item_7, @item_8])
       expect(@merchant2.disabled_items).to eq([@item_5, @item_6])
     end
+
+    it "five_coupons_max" do
+      4.times do |i|
+        @merchant1.coupons.create!(name: "Coupon #{i}", code: "CODE#{i}", discount_type: 0, discount_amount: 10, active:true)
+      end
+      expect(@merchant1.five_coupons_max).to be(false)
+      
+      @merchant1.coupons.create!(name: "Coupon 5", code: "CODE5", discount_type: 0, discount_amount: 10, active: true)
+
+      expect(@merchant1.five_coupons_max).to be(true)
+    end
   end
 end
