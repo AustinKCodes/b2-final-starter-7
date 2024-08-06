@@ -43,7 +43,6 @@ RSpec.describe "Coupon Show Page" do
 
     expect(page).to have_content("Use Count: #{@coupon1.use_count}")
     expect(page).to_not have_content("Use Count: #{@coupon2.use_count}")
-    save_and_open_page
   end
 
 end
