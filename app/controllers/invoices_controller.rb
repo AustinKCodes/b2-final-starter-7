@@ -8,7 +8,11 @@ class InvoicesController < ApplicationController
 
   def show
     @customer = @invoice.customer
+    @coupon = @invoice.coupon
     @invoice_item = InvoiceItem.where(invoice_id: params[:id]).first
+    @subtotal = @invoice.merchant_subtotal(@merchant)
+    @grandtotal = @invoice.merchant_grand_total(@merchant, @coupon)
+    
   end
 
   def update

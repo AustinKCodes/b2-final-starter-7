@@ -100,4 +100,20 @@ RSpec.describe "invoices show" do
     end
   end
 
+  # US 7
+  it "should show the subtotal without the discount and the grandtotal with the discount" do
+    @merchant = Merchant.create!(name: "Hair Care")
+    @coupon1 = @merchant.coupons.create!(name: "Coupon 1", code: "CODE1", discount_type: 0, discount_amount: 10, active: true)
+    @customer = Customer.create!(first_name: "Cecilia", last_name: "Jay")
+    @invoice = Invoice.create!(customer_id: @customer.id, status: 2, coupon: @coupon1)
+    @item = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 10, merchant_id: @merchant.id)
+    @ii = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @item.id, quantity: 2, unit_price: 10, status: 2)
+
+    visit merchant_invoice_path(@merchant, @invoice)
+
+    expect(page).to have_content("Subtotal: $20")
+    expect(page).to have_content("Grand Total: $18")
+    expect(page).to have_content(@coupon1.name)
+    expect(page).to have_link(@coupon1.name, href: merchant_coupon_path(@merchant, @coupon1))
+  end
 end

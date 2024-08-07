@@ -14,4 +14,25 @@ class Invoice < ApplicationRecord
   def total_revenue
     invoice_items.sum("unit_price * quantity")
   end
+
+  def merchant_subtotal(merchant)
+    invoice_items.joins(:item)
+                  .where(items: { merchant_id: merchant.id })
+                  .sum("invoice_items.unit_price * invoice_items.quantity")
+  end
+
+  def merchant_grand_total(merchant, coupon)
+    subtotal = merchant_subtotal(merchant)
+    discount = 0
+    if coupon
+      if coupon.discount_type == "percent"
+        discount = (subtotal * coupon.discount_amount / 100)
+      elsif coupon.discount_type == "dollar"
+        discount = [coupon.discount_amount, subtotal].min      
+      end
+      subtotal - discount
+    else
+      subtotal
+    end
+  end
 end
