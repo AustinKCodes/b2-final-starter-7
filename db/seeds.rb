@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-# Rake::Task["csv_load:all"].invoke
+Rake::Task["csv_load:all"].invoke
 
 merchant1 = Merchant.create(name: "Poseidon Pools")
 merchant2 = Merchant.create(name: "Hair Care")
@@ -27,10 +27,10 @@ invoice_3 = Invoice.create(customer_id: customer_2.id, status: 2)
 invoice_1 = Invoice.create(customer_id: customer_2.id, status: 2, coupon: coupon1)
 invoice_4 = Invoice.create(customer_id: customer_1.id, status: 2, coupon: coupon2)
 
-InvoiceItem.create(invoice_id: invoice_2, item_id: item1, quantity: 1, unit_price: 5, status: 0)
-InvoiceItem.create(invoice_id: invoice_4, item_id: item2, quantity: 2, unit_price: 10, status: 2)
-InvoiceItem.create(invoice_id: invoice_3, item_id: item3, quantity: 2, unit_price: 10, status: 1)
-InvoiceItem.create(invoice_id: invoice_1, item_id: item4, quantity: 3, unit_price: 10, status:2)
+ii_1 = InvoiceItem.create(invoice_id: invoice_2, item_id: item1, quantity: 1, unit_price: 5, status: 0)
+ii_2 = InvoiceItem.create(invoice_id: invoice_4, item_id: item2, quantity: 2, unit_price: 10, status: 2)
+ii_3 = InvoiceItem.create(invoice_id: invoice_3, item_id: item3, quantity: 2, unit_price: 10, status: 1)
+ii_4 = InvoiceItem.create(invoice_id: invoice_1, item_id: item4, quantity: 3, unit_price: 10, status:2)
 
 transaction1 = Transaction.create(credit_card_number: 243155, result: 1, invoice_id: invoice_2.id)
 transaction2 = Transaction.create(credit_card_number: 243155, result: 1, invoice_id: invoice_4.id)
