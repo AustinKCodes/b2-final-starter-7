@@ -82,10 +82,11 @@ describe "Admin Invoices Index Page" do
     @ii_2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @item_2.id, quantity: 4, unit_price: 10, status: 2)
 
     visit admin_invoice_path(@invoice)
-
-    expect(page).to have_content("Coupon: #{@coupon.name} (#{@coupon.code})")
-    expect(page).to have_content("Subtotal: $#{@invoice.merchant.subtotal}")
-    expect(page).to have_content("Grand Total: $#{@invoice.merchant_grand_total}")
+    
+    expect(page).to have_content("Subtotal: $#{@invoice.subtotal}")
+    expect(page).to have_content("Coupon: #{@coupon1.name} (#{@coupon1.code})")
+    expect(page).to have_content("Grand Total: $#{@invoice.grandtotal(@invoice.coupon)}")
+    save_and_open_page
   end
 
 end
