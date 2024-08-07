@@ -44,7 +44,7 @@ RSpec.describe "Merchant Coupons Index" do
     @coupon1 = Coupon.create!(name: "Coupon 1", code: "BOGO50", discount_type: 0, discount_amount: 50, merchant: @merchant1, active: true)
     @coupon2 = Coupon.create!(name: "Coupon 2", code: "SAVE10", discount_type: 1, discount_amount: 10, merchant: @merchant1, active: true)
     @coupon3 = Coupon.create!(name: "Coupon 3", code: "SAVE20", discount_type: 0, discount_amount: 20, merchant: @merchant1, active: false)
-    @coupon4 = Coupon.create!(name: "Coupon 4", code: "POOL20", discount_type: 0, discount_amount: 30, merchant: @merchant2, active: true)
+    @coupon4 = Coupon.create!(name: "Coupon 4", code: "POOL20", discount_type: 0, discount_amount: 30, merchant: @merchant2, active: false)
     
 
     visit merchant_dashboard_index_path(@merchant1)
@@ -82,5 +82,23 @@ RSpec.describe "Merchant Coupons Index" do
     click_link "Create New Coupon"
 
     expect(current_path).to eq(new_merchant_coupon_path(@merchant1))
+  end
+
+  #US 6
+  it "should show active and inactive coupons separately" do
+    @active_coupon = Coupon.create!(name: "Coupon 6", code: "POOL40", discount_type: 0, discount_amount: 40, merchant: @merchant1, active: true)
+    @inactive_coupon = Coupon.create!(name: "Coupon 8", code: "SAVE80", discount_type: 0, discount_amount: 80, merchant: @merchant1, active: false)
+    
+    within("#active") do
+      expect(page).to have_content("Active Coupons")
+      expect(page).to have_content(@active_coupon.name)
+      expect(page).to_not have_content(@inactive_coupon).name
+    end
+
+    within("inactive") do
+      expect(page).to have_content("Inactive Coupons")
+      expect(page).to have_content(@inactive_coupon.name)
+      expect(page).to_not have_content(@active_coupon.name)
+    end
   end
 end
