@@ -69,4 +69,23 @@ describe "Admin Invoices Index Page" do
       expect(@i1.status).to eq("completed")
     end
   end
+
+  #US 8
+  it "should show the used coupon's details, the subtotal, and the grand total" do
+    @merchant = Merchant.create!(name: "Hair Care")
+    @coupon1 = @merchant.coupons.create!(name: "Coupon 1", code: "CODE1", discount_type: 0, discount_amount: 20, active: true)
+    @customer = Customer.create!(first_name: "Cecilia", last_name: "Jay")
+    @invoice = Invoice.create!(customer_id: @customer.id, status: 2, coupon: @coupon1)
+    @item1 = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 10, merchant_id: @merchant.id)
+    @item2 = Item.create!(name: "Shampoo", description: "Smells good", unit_price: 10, merchant_id: @merchant.id)
+    @ii_1 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @item_1.id, quantity: 2, unit_price: 10, status: 2)
+    @ii_2 = InvoiceItem.create!(invoice_id: @invoice.id, item_id: @item_2.id, quantity: 4, unit_price: 10, status: 2)
+
+    visit admin_invoice_path(@invoice)
+
+    expect(page).to have_content("Coupon: #{@coupon.name} (#{@coupon.code})")
+    expect(page).to have_content("Subtotal: $#{@invoice.merchant.subtotal}")
+    expect(page).to have_content("Grand Total: $#{@invoice.merchant_grand_total}")
+  end
+
 end
