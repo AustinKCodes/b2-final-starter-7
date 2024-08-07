@@ -4,8 +4,8 @@ RSpec.describe "Coupon Show Page" do
   before :each do
     @merchant1 = Merchant.create!(name: "Hair Care")
 
-    @coupon1 = @merchant1.coupons.create!(name: "Coupon 1", code: "CODE1", discount_type: 0, discount_amount: 10, active:true)
-    @coupon2 = @merchant1.coupons.create!(name: "Coupon 2", code: "CODE2", discount_type: 0, discount_amount: 10, active:true)
+    @coupon1 = @merchant1.coupons.create!(name: "Coupon 1", code: "CODE1", discount_type: 0, discount_amount: 10, active: true)
+    @coupon2 = @merchant1.coupons.create!(name: "Coupon 2", code: "CODE2", discount_type: 0, discount_amount: 10, active: false)
 
     @customer_4 = Customer.create!(first_name: "Leigh Ann", last_name: "Bron")
     @customer_5 = Customer.create!(first_name: "Sylvester", last_name: "Nader")
@@ -55,6 +55,18 @@ RSpec.describe "Coupon Show Page" do
     expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon1))
     expect(page).to have_content("Inactive")
     expect(page).to have_content("Coupon deactivated successfully")
+  end
+
+  #US 5
+  it "shows a button to enable the coupon" do
+    visit merchant_coupon_path(@merchant1, @coupon2)
+    expect(page).to have_button "Enable Coupon"
+
+    click_button "Enable Coupon"
+    expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon2))
+    expect(page).to have_content("Active")
+    expect(page).to have_content("Coupon activated successfully")
+    
   end
 
 end
