@@ -27,7 +27,7 @@ invoice_3 = Invoice.create(customer_id: customer_2.id, status: 2)
 invoice_1 = Invoice.create(customer_id: customer_2.id, status: 2, coupon: coupon1)
 invoice_4 = Invoice.create(customer_id: customer_1.id, status: 2, coupon: coupon2)
 
-InvoiceItem.create(invoice_id: invoice_2, item_id: item1, quantity: 1, unit_price: 5, status: 3)
+InvoiceItem.create(invoice_id: invoice_2, item_id: item1, quantity: 1, unit_price: 5, status: 0)
 InvoiceItem.create(invoice_id: invoice_4, item_id: item2, quantity: 2, unit_price: 10, status: 2)
 InvoiceItem.create(invoice_id: invoice_3, item_id: item3, quantity: 2, unit_price: 10, status: 1)
 InvoiceItem.create(invoice_id: invoice_1, item_id: item4, quantity: 3, unit_price: 10, status:2)
