@@ -6,7 +6,7 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-Rake::Task["csv_load:all"].invoke
+# Rake::Task["csv_load:all"].invoke
 
 merchant1 = Merchant.create(name: "Poseidon Pools")
 merchant2 = Merchant.create(name: "Hair Care")
