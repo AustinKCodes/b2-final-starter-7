@@ -89,13 +89,15 @@ RSpec.describe "Merchant Coupons Index" do
     @active_coupon = Coupon.create!(name: "Coupon 6", code: "POOL40", discount_type: 0, discount_amount: 40, merchant: @merchant1, active: true)
     @inactive_coupon = Coupon.create!(name: "Coupon 8", code: "SAVE80", discount_type: 0, discount_amount: 80, merchant: @merchant1, active: false)
     
-    within("#active") do
+    click_link "View All Coupons"
+
+    within("#active_coupons") do
       expect(page).to have_content("Active Coupons")
       expect(page).to have_content(@active_coupon.name)
-      expect(page).to_not have_content(@inactive_coupon).name
+      expect(page).to_not have_content(@inactive_coupon.name)
     end
 
-    within("inactive") do
+    within("#inactive_coupons") do
       expect(page).to have_content("Inactive Coupons")
       expect(page).to have_content(@inactive_coupon.name)
       expect(page).to_not have_content(@active_coupon.name)

@@ -2,8 +2,8 @@ class CouponsController < ApplicationController
   before_action :set_merchant
   before_action :set_coupon, only: [:show, :update]
   def index
-    @merchant = Merchant.find(params[:merchant_id])
-    @coupons = @merchant.coupons
+    @active_coupons = @merchant.active_coupons
+    @inactive_coupons = @merchant.inactive_coupons
   end
 
   def show
