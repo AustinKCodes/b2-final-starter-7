@@ -157,5 +157,27 @@ describe Merchant do
 
       expect(@merchant1.five_coupons_max).to be(true)
     end
+
+  describe ".active_coupons" do
+    it "should return only active coupons" do
+      @merchant = Merchant.create!(name: "Hair Care")
+      @coupon1 = @merchant.coupons.create!(name: "Coupon 1", code: "CODE1", discount_type: 0, discount_amount: 10, active: true)
+      @coupon2 = @merchant.coupons.create!(name: "Coupon 2", code: "CODE2", discount_type: 0, discount_amount: 10, active: false)
+
+      expect(@merchant.active_coupons).to include(@coupon1)
+      expect(@merchant.active_coupons).to_not include(@coupon2)
+    end
+  end
+
+    describe ".inactive_coupons" do
+      it "should return only inactive coupons" do
+        @merchant = Merchant.create!(name: "Hair Care")
+        @coupon1 = @merchant.coupons.create!(name: "Coupon 1", code: "CODE1", discount_type: 0, discount_amount: 10, active: true)
+        @coupon2 = @merchant.coupons.create!(name: "Coupon 2", code: "CODE2", discount_type: 0, discount_amount: 10, active: false)
+
+        expect(@merchant.inactive_coupons).to include(@coupon2)
+        expect(@merchant.inactive_coupons).to_not include(@coupon1)
+      end
+    end
   end
 end
