@@ -46,13 +46,15 @@ RSpec.describe "Coupon Show Page" do
   end
 
   #US 4
-  it "shows a buttone to disable the coupon" do
+  it "shows a button to disable the coupon" do
     visit merchant_coupon_path(@merchant1, @coupon1)
-
+    expect(page).to have_button "Disable Coupon"
+    # save_and_open_page
     click_button "Disable Coupon"
-
+    
     expect(current_path).to eq(merchant_coupon_path(@merchant1, @coupon1))
     expect(page).to have_content("Inactive")
+    expect(page).to have_content("Coupon deactivated successfully")
   end
 
 end

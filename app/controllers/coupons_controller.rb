@@ -1,5 +1,6 @@
 class CouponsController < ApplicationController
   before_action :set_merchant
+  before_action :set_coupon, only: [:show, :update]
   def index
     @merchant = Merchant.find(params[:merchant_id])
     @coupons = @merchant.coupons
@@ -27,6 +28,19 @@ class CouponsController < ApplicationController
       render :new
     end
   end
+  
+  def update
+    if params[:coupon].present?
+      if params[:coupon][:active] == "false"
+        @coupon.update(active: false)
+        flash[:notice] = "Coupon deactivated successfully"
+      elsif params[:coupon][:active] == "true"
+        @coupon.update(active: true)
+        flash[:notice] = "Coupon activated successfully"
+      end
+      redirect_to merchant_coupon_path(@merchant, @coupon)
+    end
+  end
 
   private
   def set_merchant
@@ -34,6 +48,10 @@ class CouponsController < ApplicationController
   end
 
   def coupon_params
-  params.require(:coupon).permit(:name, :code, :discount_type, :discount_amount, :active)
+    params.require(:coupon).permit(:name, :code, :discount_type, :discount_amount, :active)
   end 
+
+  def set_coupon
+    @coupon = @merchant.coupons.find(params[:id])
+  end
 end

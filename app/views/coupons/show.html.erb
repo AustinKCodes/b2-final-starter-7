@@ -3,5 +3,8 @@
 <p> Discount Type: <%= @coupon.discount_type == "percent" ? "#{@coupon.discount_amount}% off" : "$#{@coupon.discount_amount} off" %> </p>
 <p> Status: <%= @coupon.active ? "Active" : "Inactive" %> </p>
 <p> Use Count: <%= @coupon_use_count %> </p>
-
-
+<% if @coupon.active == true %>
+    <%= button_to "Disable Coupon", merchant_coupon_path(@merchant, @coupon), method: :patch, params: { coupon: {active: false, } } %>
+<% elsif @coupon.active == false %>
+    <%= button_to "Enable Coupon", merchant_coupon_path(@merchant, @coupon), method: :patch, params: { coupon: {active: true, } } %>
+<% end %>
