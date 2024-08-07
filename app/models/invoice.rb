@@ -35,4 +35,22 @@ class Invoice < ApplicationRecord
       subtotal
     end
   end
+
+  def subtotal
+    invoice_items.joins(:item).sum("invoice_items.unit_price * invoice_items.quantity")
+  end
+
+  def grandtotal(coupon)
+    subtotal = invoice_items.joins(:item).sum("invoice_items.unit_price * invoice_items.quantity")
+    discount = 0
+    if coupon
+      if coupon.discount_type == "percent"
+        discount = (subtotal * coupon.discount_amount / 100)
+      elsif coupon.discount_type == "dollar"
+        discount = [coupon.discount_amount, subtotal].min      
+      end
+      puts subtotal
+      subtotal - discount
+    end
+  end
 end

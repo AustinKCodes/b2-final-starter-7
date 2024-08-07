@@ -14,6 +14,11 @@
       <% end %>
   <p>Created on: <%= @invoice.created_at.strftime("%A, %B %d, %Y") %>
   <p>Total Revenue: <%= number_to_currency(@invoice.total_revenue) %>
+  <% if @invoice.coupon %>
+    <p>Coupon: <%= @invoice.coupon.name %> (<%= @invoice.coupon.code %>)</p>
+    <p>Subtotal: $<%= @invoice.subtotal %></p>
+    <p>Grand Total: $<%= @invoice.grandtotal(@invoice.coupon) %></p>
+  <% end %>
 
   <h4>Customer:</h4>
     <%= @invoice.customer.first_name %> <%= @invoice.customer.last_name %><br>
